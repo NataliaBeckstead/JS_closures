@@ -55,11 +55,11 @@ function processFirstItem(stringList, callback) {
   /* Task 2: inning() 
   Write a function called `inning` that generates a random number of points that a team scored in an inning. This should be a whole number between 0 and 2. */
   
-  function inning(/*Code Here*/){
-  
-      /*Code Here*/
-  
-  }
+  function inning() {
+    return (Math.floor(Math.random() * 3));
+}
+ 
+console.log(inning());
   
   /* Task 3: finalScore()
   Write a higher order function called `finalScore` that accepts the callback function `inning` (from above) and a number of innings and and returns the final score of the game in the form of an object.
@@ -71,11 +71,16 @@ function processFirstItem(stringList, callback) {
   }
   */ 
   
-  function finalScore(/*code Here*/){
-  
-    /*Code Here*/
-  
-  }
+ function finalScore(inning_callback, number_of_innings) {
+    let finalScore = { "Home": 0, "Away": 0 };
+    for (let i = 0; i < number_of_innings; i++) {
+        finalScore["Home"] += inning_callback();
+        finalScore["Away"] += inning_callback();
+    }
+
+    return finalScore;
+}
+console.log(finalScore(inning, 9));
   
   /* Task 4: 
   Create a function called `scoreboard` that accepts the following parameters: 
@@ -93,6 +98,20 @@ function processFirstItem(stringList, callback) {
   9th inning: 6 - 10
   Final Score: 6 - 10 */
   
-  function scoreboard(/* CODE HERE */) {
-    /* CODE HERE */
-  }
+  let getInningScore = (inning) => ({ Home: inning(), Away: inning() });
+
+function scoreboard(getInningScore, inning, innings) {
+    let finalScores = { Home: 0, Away: 0 };
+
+    for (let i = 1; i <= innings; i++) {
+        let currentInning = getInningScore(inning);
+        console.log(`${ ( i ) } inning: ${ currentInning[ "Away" ] } - ${ currentInning[ "Home" ] }`);
+        finalScores["Away"] += currentInning["Away"];
+        finalScores["Away"] += currentInning["Home"];
+    }
+
+    console.log(`Final Score: ${ finalScores[ "Away" ]} - ${ finalScores [ "Home" ]}`);
+}
+scoreboard(getInningScore, inning, 9);
+
+
